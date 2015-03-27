@@ -36,7 +36,11 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
-		return parent::render($request, $e);
+		if(env('APP_DEBUG')){
+			return response()->json(['error'=>get_class($e), 'message'=>$e->getMessage()], $e->getStatusCode());
+		}else{
+			return response()->json(['error'=>'Some error happens.'], $e->getStatusCode());
+		}
 	}
 
 }
